@@ -1,0 +1,53 @@
+<!-- 后写的把之前的覆盖掉     选择器问题  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>document</title>
+	<meta charset="UTF-8">
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background: #789;
+		}
+		#main img{
+			width: 350px;
+			height: 300px;
+			position: absolute;
+			border: 5px #fff solid;
+			-webkit-box-shadow: 5px 5px 5px rgba(50,50,50,0.5);
+			-webkit-transition: all 2s ease;
+		}
+		#main img:nth-child(1){
+			-webkit-transform: rotate(20deg); 
+		}
+		#main img:nth-child(2){
+			-webkit-transform: rotate(-20deg); 
+		}
+		#main{			
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -150px;
+			margin-left: -175px;
+		}
+		#main img:hover{
+			-webkit-transform: scale(1.2) rotate(0deg); 
+			width: 420px;
+			height: 360px;
+			/*-webkit-transform: rotate(0deg);*/
+			-webkit-box-shadow: 10px 10px 5px rgba(50,50,50,0.5);	
+			z-index: 1;
+
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<img src="img/1.jpg">
+		<img src="img/2.jpg">
+	</div>
+</body>
+</html>
