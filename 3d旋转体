@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>document</title>
+	<meta charset="UTF-8">
+	<style>
+		body{
+			background: #000;
+			-webkit-perspective: 1000px;
+			/*-webkit-perspective-origin: 50% -90%;*/
+		}
+		.cude{
+			width: 200px;
+			height: 200px;
+			background: rgba(255,255,255,0.6);
+			border: #fff solid 1px;
+			border-radius: 5px;
+			font-size: 60px;
+			text-align: center;
+			line-height: 200px;
+			position: absolute;
+		}
+		#container{
+			width: 200px;
+			height: 200px;
+			margin: 200px auto;
+			/*background: red;*/
+			-webkit-transform-style: preserve-3d;  
+			/*有爷爷父亲儿子时加这句*/
+			-webkit-animation: rotate 2s linear infinite;
+		}
+		@-webkit-keyframes rotate{
+			from{
+
+			}
+			to{
+				-webkit-transform: rotateY(-360deg);
+			}
+		}
+		.one{
+			-webkit-transform: rotateY(180deg) translateZ(100px);
+		}
+		.two{
+			-webkit-transform: rotateY(-90deg) translateZ(100px);
+		}
+		.three{
+			-webkit-transform: rotateY(90deg) translateZ(100px);
+		}
+		.four{
+			-webkit-transform: rotateX(90deg) translateZ(100px);
+		}
+		.five{
+			-webkit-transform: rotateX(-90deg) translateZ(100px);
+		}
+		.six{
+			-webkit-transform: translateZ(100px);
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div class="cude one">1</div>
+		<div class="cude two">2</div>
+		<div class="cude three">3</div>
+		<div class="cude four">4</div>
+		<div class="cude five">5</div>
+		<div class="cude six">6</div>
+	</div>
+</body>
+</html>
