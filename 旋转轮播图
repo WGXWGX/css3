@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>document</title>
+	<meta charset="UTF-8">
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#container{
+			width: 500px;
+			height: 300px;
+			margin: 50px auto;
+			position: relative;
+		}
+		#imgs img{
+			width: 500px;
+			height: 300px;
+			position: absolute;
+			opacity: 0;
+			-webkit-transform-origin: bottom;
+		}
+		#imgs{
+			width: 500px;
+			height: 300px;
+			-webkit-perspective: 1000px;
+			
+		}
+		#left, #right{
+			font-size: 40px;
+			background: #ccc;
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			text-align: center;
+			line-height: 50px;
+			border-radius: 50%;
+			top: 50%;
+			margin-top: -25px;
+			-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+			-webkit-text-stroke: 2px #000;
+			color: #fff;
+		}
+		#left{
+			position: absolute;
+
+			left: -100px;
+		}
+		#right{
+			position: absolute;
+		
+			right: -100px;
+		}
+		.show{
+			-webkit-animation: show 2s ease-out forwards;
+		}
+		@-webkit-keyframes show{
+			from{
+				-webkit-transform: rotateX(-180deg);
+				opacity: 0;
+			}
+			to{
+				-webkit-transform: rotateY(0deg);
+				opacity: 1;
+			}
+		}
+		.hide{
+			-webkit-animation: hide 2s ease-in forwards;
+		}
+		@-webkit-keyframes hide{
+			from{
+				-webkit-transform: rotateX(0deg);
+				opacity: 1;
+			}
+			to{
+				-webkit-transform: rotateY(180deg);
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="imgs">
+			<img src="img/11.jpg" class="show">
+			<img src="img/22.jpg">
+			<img src="img/3.jpg">
+			<img src="img/4.jpg">	
+		</div>
+		<span id="left">&lt;</span>
+		<span id="right">&gt;</span>
+	</div>
+	<script>
+		var aImg = document.getElementsByTagName('img');
+		var oLeft = document.getElementById('left');
+		var oRight = document.getElementById('right');
+		var nowIdx = 0;
+		oRight.onclick = function(){
+			aImg[nowIdx].className = 'hide';
+			nowIdx++;
+			if(nowIdx == aImg.length){
+				nowIdx = 0;
+			}
+			aImg[nowIdx].className = 'show';
+		}
+		oLeft.onclick = function(){
+			aImg[nowIdx].className = 'hide';
+			nowIdx--;
+			if(nowIdx == -1){
+				nowIdx = aImg.length - 1;
+			}
+			aImg[nowIdx].className = 'show';
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
