@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>document</title>
+	<meta charset="UTF-8">
+	<style>
+		body{
+			-webkit-perspective: 800px;
+			-webkit-perspective-origin: 50%, -90%;
+		}
+		#container{
+			width: 125px;
+			height: 125px;
+			margin: 200px auto;
+			background: red;
+			-webkit-transform-style: preserve-3d; 
+			-webkit-transition: all 1s linear;
+		}
+		#container img{
+			position: absolute;
+			width: 125px;
+			height: 125px;
+			-webkit-transition: all 1s linear;
+		}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<script>
+		var oContainer = document.querySelector('#container');
+		var count = 0;
+		var index = 1;
+		for(var i=0; i<9; i++){
+			var oImg = new Image();
+			oImg.onload = function(){
+				count++;
+				if(count == 9){
+					var aImg = oContainer.querySelectorAll('img');
+					for(var i=0; i<aImg.length; i++){
+							(function(idx){
+								setTimeout(function(){
+									aImg[idx].style.transform = 'rotateY('+ 40*(aImg.length - idx) +'deg) translateZ(200px)';
+								},(9 - idx) * 100);
+							})(i);
+							// aImg[i].style.WebkitTransitionDelay = 100 * i +'ms';	
+							
+						}
+				}
+			};
+			oImg.src = 'img/thumbs/'+ (i + 1) +'.jpg';
+			oContainer.appendChild(oImg);
+		}
+		oContainer.addEventListener('click',function(){
+			this.style.WebkitTransform = 'rotateY('+40*index +'deg)';
+			index++;
+		});
+	</script>
+</body>
+</html>
