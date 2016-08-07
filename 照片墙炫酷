@@ -159,7 +159,7 @@
                           	oNext.style.display = 'none';
 
 						}
-					}else{//未被点，ju
+					}else{
 						var bigImgPos = {
 							left: (oContainer.offsetWidth - BIG_IMG_WIDTH) / 2,
 							top: (oContainer.offsetHeight - BIG_IMG_HEIGHT) / 2,
@@ -211,7 +211,6 @@
                     var item = arr.pop();
                     var oSpan = aImg[item].getElementsByTagName('span')[0];
                     oSpan.style.backgroundImage = 'url(img/'+ nowIdx +'.jpg)';
-
                     if(arr.length == 0){
                         clearInterval(timer);
                     }
