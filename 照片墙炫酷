@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>document</title>
+	<meta charset="UTF-8">
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			background: url(img/bg.jpg);
+		}
+		#container{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		#container .img{
+			-webkit-box-shadow: 2px 2px 2px rgba(0,0,0,.5);
+			position: absolute;
+			top: -500px;
+			left: -500px;
+			border: #fff solid 5px;
+			background-repeat: no-repeat;
+			cursor: pointer; 
+			-webkit-transition: all 1s ease-in-out;
+		}
+		/*.myPrev{
+			
+			background: url(img/prev.png);
+		}
+		.myNext{
+			background: url(img/next.png);
+		}
+		.myPrev, .myNext{
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			top: 50%;
+			margin-top: -60px;
+			background-repeat: no-repeat;
+		}*/
+		#container span{
+			opacity: 0;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-repeat: no-repeat;
+			-webkit-transition: all 1s ease-in-out;
+		}
+		#prev, #next{
+			/*background-repeat: no-repeat;*/
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			top: 50%;
+			margin-top: -30px;
+			background: #fff;
+			opacity: 0.7;
+			background-position: center;
+			display: none;
+		}
+		#prev{
+			background-image: url(img/prev.png);
+			background-repeat: no-repeat;
+			left: -20px;
+			-webkit-border-radius: 0 8px 8px 0;
+		}
+		#next{
+			background-image: url(img/next.png);
+			background-repeat: no-repeat;
+			right: -20px;
+			-webkit-border-radius: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+	<span id="prev"></span>
+	<span id="next"></span>
+	<script>
+		(function(){
+			var ROW = 4,
+				COL = 6,
+				NUM = ROW * COL,
+				THUMB_IMG_WIDTH = 125,
+				THUMB_IMG_HEIGHT = 125,
+				BIG_IMG_WIDTH = 750,
+				BIG_IMG_HEIGHT = 500;
+			var count = 0;
+			var index = 0;
+			var bClick = false;/////
+			var oContainer = document.getElementById('container'),
+				oPrev = document.getElementById('prev'),
+                oNext = document.getElementById('next');
+            var aImg = document.getElementsByClassName('img');
+            var nowIdx = 1;
+
+                //图片加载
+			for(var i=0; i<NUM; i++){
+				var thumbImg = new Image();
+				thumbImg.onload = function(){
+					count++;
+					if(count == NUM*2){
+						loadSuccess();
+					}
+				};
+				thumbImg.src = 'img/thumbs/' + ( i + 1) + '.jpg';
+				var bigImg = new Image();
+				bigImg.onload = function(){
+					count++;
+					if(count == NUM*2){
+						loadSuccess();
+					}
+				};
+				bigImg.src = 'img/'+ (i + 1) +'.jpg';
+			}
+			var iColGap = (oContainer.offsetWidth - THUMB_IMG_WIDTH * COL) / (COL + 1);
+			var iRowGap = (oContainer.offsetHeight - THUMB_IMG_HEIGHT * ROW) / (ROW + 1);
+			function loadSuccess(){
+				//创建24个div
+				for(var i=0; i<ROW; i++)
+					for(var j=0; j<COL; j++){
+						index++;
+						var oDiv = document.createElement('div');
+						oDiv.className = 'img';
+						oDiv.style.width = THUMB_IMG_WIDTH + 'px';
+						oDiv.style.height = THUMB_IMG_HEIGHT + 'px';
+						oDiv.style.backgroundImage = 'url(img/thumbs/'+ (index) +'.jpg)' ;
+						oDiv.innerHTML = '<span></span>';
+						oDiv.pos = {
+                            row : i,
+                            col : j,
+                            left : parseInt(j * (iColGap + THUMB_IMG_WIDTH) + iColGap),
+                            top : parseInt(i * (iRowGap + THUMB_IMG_HEIGHT) + iRowGap)
+                        };
+                        oDiv.index = index;/////获取到当前点击那个的坐标
+						oContainer.appendChild(oDiv);
+					}
+				var timer = setInterval(function(){
+					
+					aImg[--index].style.left = aImg[index].pos.left + 'px';
+					aImg[index].style.top = aImg[index].pos.top + 'px';
+					// aImg[index].style.WebkitTransform = 'rotate('+ (Math.random() * 40 -20) +'deg)';
+					setStyle(aImg[index],'transform', 'rotate('+ (Math.random() * 40 -20) +'deg)');
+					if(index == 0){
+						clearInterval(timer);
+					}
+				},100)
+			}
+			//////////////////////我的函数库  next first 绑定移除函数
+			function setStyle(elem,prop,val){
+				['Webkit', 'Moz', 'Ms', 'O', ''].forEach(function(prefix){
+					elem.style[prefix + prop.charAt(0).toUpperCase() + prop.substring(1)] = val;
+				});
+			}
+			/////////////每点击放大
+			oContainer.onclick = function(e){
+				var target = e.target;
+				if(target != oContainer){
+					if(bClick){//要
+						for(var i=0; i<NUM; i++){
+							aImg[i].style.left =aImg[i].pos.left + 'px';
+							aImg[i].style.top = aImg[i].pos.top + 'px';
+							aImg[i].style.borderWidth = '5px';
+							setStyle(aImg[i],'transform', 'rotate('+ (Math.random() * 40 -20) +'deg)');
+							var oSpan = aImg[i].getElementsByTagName('span')[0];
+                            oSpan.style.opacity = 0;
+                            oPrev.style.display = 'none';
+                          	oNext.style.display = 'none';
+
+						}
+					}else{//未被点，ju
+						var bigImgPos = {
+							left: (oContainer.offsetWidth - BIG_IMG_WIDTH) / 2,
+							top: (oContainer.offsetHeight - BIG_IMG_HEIGHT) / 2,
+						};
+						for(var i=0; i<NUM; i++){
+							aImg[i].style.left = bigImgPos.left + aImg[i].pos.col * THUMB_IMG_WIDTH + 'px';
+							aImg[i].style.top = bigImgPos.top + aImg[i].pos.row * THUMB_IMG_HEIGHT + 'px';
+							aImg[i].style.borderWidth = '1px';
+							setStyle(aImg[i],'transform', 'rotate(0deg)');
+							var oSpan = aImg[i].getElementsByTagName('span')[0];
+							// console.log(target.parentNode.index);
+							oSpan.style.backgroundImage = 'url(img/'+ (target.parentNode.index) +'.jpg)';
+							oSpan.style.opacity = 1;
+							// oSpan.style.backgroundPositionLeft = 'bigImgPos.left + THUMB_IMG_WIDTH * aImg[i].pos.col' + 'px';
+							// oSpan.style.backgroundPositionTop = 'bigImgPos.top + THUMB_IMG_HEIGHT * aImg[i].pos.row' + 'px';
+							oSpan.style.backgroundPosition = -aImg[i].pos.col * THUMB_IMG_WIDTH + 'px '
+                                    + (-aImg[i].pos.row * THUMB_IMG_HEIGHT) + 'px';
+                          	oPrev.style.display = 'block';
+                          	oNext.style.display = 'block';
+                          	nowIdx = target.parentNode.index;
+						}
+					}
+					bClick = !bClick;
+				}
+				oPrev.className = 'myPrev';
+				oNext.className = 'myNext';
+			};
+			 oPrev.onclick = oNext.onclick = function(){
+                if(this == oPrev){
+                    nowIdx--;
+                    if(nowIdx == 0){
+                        nowIdx = NUM;
+                    }
+                }else{
+                    nowIdx++;
+                    if(nowIdx == NUM + 1){
+                        nowIdx = 1;
+                    }
+                }
+
+                var arr = [];
+                for(var i=0; i<NUM; i++){
+                    arr.push(i);
+                }
+                arr.sort(function(){
+                    return Math.random() - 0.5;
+                });
+                var timer = setInterval(function(){
+                    var item = arr.pop();
+                    var oSpan = aImg[item].getElementsByTagName('span')[0];
+                    oSpan.style.backgroundImage = 'url(img/'+ nowIdx +'.jpg)';
+
+                    if(arr.length == 0){
+                        clearInterval(timer);
+                    }
+                }, 30);
+            };
+		})();
+		
+	</script>
+</body>
+</html>
