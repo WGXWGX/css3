@@ -28,21 +28,6 @@
 			cursor: pointer; 
 			-webkit-transition: all 1s ease-in-out;
 		}
-		/*.myPrev{
-			
-			background: url(img/prev.png);
-		}
-		.myNext{
-			background: url(img/next.png);
-		}
-		.myPrev, .myNext{
-			width: 60px;
-			height: 60px;
-			position: absolute;
-			top: 50%;
-			margin-top: -60px;
-			background-repeat: no-repeat;
-		}*/
 		#container span{
 			opacity: 0;
 			width: 100%;
@@ -153,7 +138,6 @@
 					}
 				},100)
 			}
-			//////////////////////我的函数库  next first 绑定移除函数
 			function setStyle(elem,prop,val){
 				['Webkit', 'Moz', 'Ms', 'O', ''].forEach(function(prefix){
 					elem.style[prefix + prop.charAt(0).toUpperCase() + prop.substring(1)] = val;
