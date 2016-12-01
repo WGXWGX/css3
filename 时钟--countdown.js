@@ -59,3 +59,53 @@ function update(){
     }
     updateBalls();
 }
+function updateBalls(){
+	for(var i=0; i<balls.length; i++){
+		balls[i].x += balls[i].vx;
+		balls[i].y += balls[i].vy;
+        balls[i].vy += balls[i].g;
+        if( balls[i].y >= WINDOW_HEIGHT-radius ){
+            balls[i].y = WINDOW_HEIGHT-radius;
+            balls[i].vy = - balls[i].vy*0.85;
+        }
+	}
+}
+function addBalls( x , y , num ){
+
+    for( var i = 0  ; i < digit[num].length ; i ++ )
+        for( var j = 0  ; j < digit[num][i].length ; j ++ )
+            if( digit[num][i][j] == 1 ){
+                var aBall = {
+                    x:x+j*2*(radius+1)+(radius+1),
+                    y:y+i*2*(radius+1)+(radius+1),
+                    g:1.5+Math.random(),
+                    vx:Math.pow( -1 , Math.ceil( Math.random()*1000 ) ) * 4,
+                    vy:-5,
+                    color: colors[ Math.floor( Math.random()*colors.length ) ]
+                }
+
+                balls.push( aBall );
+            }
+}
+function draw(context){
+	context.clearRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+	var hours = parseInt( curShowTimeSeconds / 3600);
+    var minutes = parseInt( (curShowTimeSeconds - hours * 3600)/60 );
+    var seconds = curShowTimeSeconds % 60;
+	drawdigit(MARGIN_LEFT,MARGIN_TOP,parseInt(hours/10),context);
+	drawdigit(MARGIN_LEFT+15*(radius+1),MARGIN_TOP,parseInt(hours%10),context);
+	drawdigit(MARGIN_LEFT+30*(radius+1),MARGIN_TOP,10,context);
+	drawdigit(MARGIN_LEFT+39*(radius+1),MARGIN_TOP,parseInt(minutes/10),context);
+	drawdigit(MARGIN_LEFT+54*(radius+1),MARGIN_TOP,parseInt(minutes%10),context);
+	drawdigit(MARGIN_LEFT+69*(radius+1),MARGIN_TOP,10,context);
+	drawdigit(MARGIN_LEFT+78*(radius+1),MARGIN_TOP,parseInt(seconds/10),context);
+	drawdigit(MARGIN_LEFT+93*(radius+1),MARGIN_TOP,parseInt(seconds%10),context);
+	for( var i = 0 ; i < balls.length ; i ++ ){
+        context.fillStyle=balls[i].color;
+        context.beginPath();
+        context.arc( balls[i].x , balls[i].y , radius , 0 , 2*Math.PI , true );
+        context.closePath();
+        context.fill();
+    }
+}
+
