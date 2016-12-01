@@ -108,4 +108,15 @@ function draw(context){
         context.fill();
     }
 }
-
+function drawdigit(x,y,num,context){
+	context.fillStyle = 'blue';
+	for(var i=0; i<digit[num].length; i++)
+		for(var j=0; j<digit[num][i].length; j++){
+			if(digit[num][i][j] == 1){
+				context.beginPath();
+				context.arc(x+j*2*(radius+1)+(radius+1),y+i*2*(radius+1)+(radius+1),radius,0,2*Math.PI);
+				context.closePath();
+				context.fill();
+			}
+		}
+}
